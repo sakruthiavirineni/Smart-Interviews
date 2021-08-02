@@ -1,0 +1,56 @@
+import java.io.*;
+import java.util.*;
+class Node{
+    int data;
+    Node left;
+    Node right;
+    Node(int val){
+        this.data = val;
+        this.left = null;
+        this.right = null;
+    }
+}
+public class Solution {
+    static Node insert(Node root, int ele){
+       if(root==null) return new Node(ele);
+        if(root.data>ele) root.left=insert(root.left,ele);
+        else root.right=insert(root.right,ele);
+        return root;
+    }
+    static int depth(Node root,int ele){
+        int dep=-1;
+        if(root==null)
+            return -1;
+        if(root.data==ele)
+            return dep+1;
+        if((dep = depth(root.left,ele))>=0 || (dep=depth(root.right,ele))>=0)
+            return dep+1;
+        return dep;
+    }
+    public static void main(String[] args) throws IOException{
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        Scanner s = new Scanner(System.in);
+        int tests = s.nextInt();
+        while(tests-->0){
+            int n = s.nextInt();
+            int arr[]= new int[n];
+            for(int i=0;i<n;i++){
+                arr[i]=s.nextInt();
+            }
+            Node root=null;
+            for(int ele:arr){
+                root = insert(root,ele);
+            }
+            int res[]=new int[n];
+            for(int i=0;i<n;i++){
+                res[i]=depth(root,arr[i]);
+            }
+            for(int i=0;i<n;i++){
+                bw.write(res[i]+" ");
+            }
+            bw.write("\n");
+        }
+        bw.flush();
+    }
+}
